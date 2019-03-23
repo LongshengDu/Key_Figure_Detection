@@ -4,5 +4,5 @@ __pycache__/
 *$py.class
 
 # Test files
-test_examples/*.*
+test_examples/
 
