@@ -14,18 +14,20 @@ def process_video(video_para):
 
     if not os.path.exists(output_path):
         os.mkdir(output_path)
+    if not os.path.exists(imout_path):
         os.mkdir(imout_path)
 
-    # Load Video 
-    video = cv2.VideoCapture(video_para)
+    # Load video 
+    video  = cv2.VideoCapture(video_para)
 
-    width = video.get(cv2.CAP_PROP_FRAME_WIDTH)
-    height = video.get(cv2.CAP_PROP_FRAME_HEIGHT)
+    width  = int(video.get(cv2.CAP_PROP_FRAME_WIDTH))
+    height = int(video.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
     # Face detection parameters
     minsize = 25 # minimum size of face
     threshold = [ 0.6, 0.7, 0.7 ]  # three steps's threshold
     factor = 0.709 # scale factor
+    margin = 32 # crop magrin
 
     # Restore mtcnn model
     print('Creating networks and loading parameters')
@@ -57,23 +59,27 @@ def process_video(video_para):
 
         # Check faces in frame, generate meta data, store face crop
         for face_position in bounding_boxes:
-            if all(i >= 0 for i in face_position): 
-                # Add to face DB
-                face_info = [face_count, frame_count, -1]
-                face_info.extend(face_position)
-                faceDB.append(face_info)
+            # Add to face DB
+            face_info = [face_count, frame_count, -1]
+            face_info.extend(face_position)
+            faceDB.append(face_info)
 
-                print face_info
+            print face_info
 
-                # Crop and save face to file
-                face_pos = face_position.astype(int)
-                crop = frame[face_pos[1] : face_pos[3], face_pos[0] : face_pos[2], ]
+            # Crop and save face to file
+            size  = np.asarray(img.shape)[0:2]
+            bb    = np.zeros(4, dtype=np.int32)
+            bb[0] = np.maximum(face_position[0] - margin/2, 0)
+            bb[1] = np.maximum(face_position[1] - margin/2, 0)
+            bb[2] = np.minimum(face_position[2] + margin/2, size[1])
+            bb[3] = np.minimum(face_position[3] + margin/2, size[0])
+            crop  = img[bb[1] : bb[3], bb[0] : bb[2], : ]
 
-                imcrop = pjoin(imout_path, str(face_count)+'.png')
-                cv2.imwrite(imcrop, crop)
+            imcrop = pjoin(imout_path, str(face_count)+'.png')
+            cv2.imwrite(imcrop, crop)
 
-                # Count faces
-                face_count += 1
+            # Count faces
+            face_count += 1
 
         # Count frames
         frame_count += 1
