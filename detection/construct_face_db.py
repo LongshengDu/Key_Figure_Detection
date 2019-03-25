@@ -1,7 +1,7 @@
-import tensorflow as tf
-import numpy as np
 import cv2
 import os
+import numpy as np
+import tensorflow as tf
 from os.path import join as pjoin
 import detect_face
 
@@ -24,6 +24,7 @@ def process_video(video_para):
     height = int(video.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
     # Face detection parameters
+    mtcnn_model = 'detection/mtcnn_model/'
     minsize = 25 # minimum size of face
     threshold = [ 0.6, 0.7, 0.7 ]  # three steps's threshold
     factor = 0.709 # scale factor
@@ -36,7 +37,7 @@ def process_video(video_para):
         gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=gpu_memory_fraction)
         sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options, log_device_placement=False))
         with sess.as_default():
-            pnet, rnet, onet = detect_face.create_mtcnn(sess, './mtcnn_model/')
+            pnet, rnet, onet = detect_face.create_mtcnn(sess, mtcnn_model)
 
     # Start detect
     frame_count = 0
@@ -92,7 +93,7 @@ def process_video(video_para):
     video.release()
 
     # Save video meta data
-    video_meta = np.array([width, height, frame_count, face_count]) 
+    video_meta = np.array([width, height, frame_count, face_count], dtype=np.int64)
     np.save(pjoin(output_path, 'video_meta.npy'), video_meta)
 
     # Save face DB data
