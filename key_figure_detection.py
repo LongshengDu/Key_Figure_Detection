@@ -1,7 +1,13 @@
 import os
-import video_to_face_db
+from detection import construct_face_db
+from embedding import extract_image_feature
+
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' 
 
-db_path = video_to_face_db.process_video('./test_examples/office.mp4')
+video_path = os.path.abspath('./test_examples/office.mp4')
+db_path    = os.path.abspath('./test_examples/office_mp4')
+
+# construct_face_db.process_video(video_path)
+extract_image_feature.face_embedding(db_path)
 
