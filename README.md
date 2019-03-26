@@ -5,6 +5,14 @@ Key Figure Detection for Multi-Person Videos
 Face detection is based on [MTCNN](https://kpzhang93.github.io/MTCNN_face_detection_alignment/index.html).  
 Face embedding is based on [Facenet](https://arxiv.org/abs/1503.03832).
 
+## Inspiration
+* [OpenCV Face Recognition](https://www.pyimagesearch.com/2018/09/24/opencv-face-recognition/)  
+* [Deep Face Recognition](https://www.robots.ox.ac.uk/~vgg/publications/2015/Parkhi15/parkhi15.pdf)  
+* [shanren7/real_time_face_recognition](https://github.com/shanren7/real_time_face_recognition)  
+* [A comparison of clustering algorithms for face clustering](http://fse.studenttheses.ub.rug.nl/18064/1/Report_research_internship.pdf)  
+* [Face Clustering: Representation and Pairwise Constraints](https://arxiv.org/pdf/1706.05067.pdf)  
+* [End-to-end Face Detection and Cast Grouping in Movies Using Erdős-Rényi Clustering](https://arxiv.org/pdf/1709.02458.pdf)  
+
 ## Credit
 
 * [davidsandberg/facenet](https://github.com/davidsandberg/facenet).
