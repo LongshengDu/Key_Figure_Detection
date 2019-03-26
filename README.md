@@ -6,6 +6,9 @@ Face detection is based on [MTCNN](https://kpzhang93.github.io/MTCNN_face_detect
 Face embedding is based on [Facenet](https://arxiv.org/abs/1503.03832).
 
 ## Inspiration
+
+The code was inspired by several articles and projects as follows:
+
 * [OpenCV Face Recognition](https://www.pyimagesearch.com/2018/09/24/opencv-face-recognition/)  
 * [Deep Face Recognition](https://www.robots.ox.ac.uk/~vgg/publications/2015/Parkhi15/parkhi15.pdf)  
 * [shanren7/real_time_face_recognition](https://github.com/shanren7/real_time_face_recognition)  
@@ -26,4 +29,3 @@ Face embedding is based on [Facenet](https://arxiv.org/abs/1503.03832).
 ```
 sudo pip install -r requirements.txt
 ```
-
