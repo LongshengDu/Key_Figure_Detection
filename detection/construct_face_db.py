@@ -20,13 +20,14 @@ def process_video(video_para):
     # Load video 
     video  = cv2.VideoCapture(video_para)
 
+    nfrm   = int(video.get(cv2.CAP_PROP_FRAME_COUNT))
     width  = int(video.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(video.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
     # Face detection parameters
     mtcnn_model = 'detection/mtcnn_model/'
     minsize = 25 # minimum size of face
-    threshold = [ 0.6, 0.7, 0.7 ]  # three steps's threshold
+    threshold = [ 0.6, 0.7, 0.8 ]  # three steps's threshold
     factor = 0.709 # scale factor
     margin = 32 # crop magrin
 
@@ -60,13 +61,6 @@ def process_video(video_para):
 
         # Check faces in frame, generate meta data, store face crop
         for face_position in bounding_boxes:
-            # Add to face DB
-            face_info = [face_count, frame_count, -1]
-            face_info.extend(face_position)
-            faceDB.append(face_info)
-
-            print face_info
-
             # Crop and save face to file
             size  = np.asarray(img.shape)[0:2]
             bb    = np.zeros(4, dtype=np.int32)
@@ -79,14 +73,20 @@ def process_video(video_para):
             imcrop = pjoin(imout_path, str(face_count)+'.png')
             cv2.imwrite(imcrop, crop)
 
+            # Add to face DB
+            face_info = [face_count, frame_count, face_position[-1]]
+            face_info.extend(bb)
+            faceDB.append(face_info)
+            print face_info
+
             # Count faces
             face_count += 1
 
         # Count frames
         frame_count += 1
 
-        # DEBUG USE
-        if(face_count > 1000):
+        # Video ends
+        if frame_count == nfrm or face_count > 1000:
             break
 
     # Close video
