@@ -1,9 +1,10 @@
 import cv2
 import os
+import shutil
+import detect_face
 import numpy as np
 import tensorflow as tf
 from os.path import join as pjoin
-import detect_face
 
 def process_video(video_para):
     # Generate output path
@@ -12,10 +13,10 @@ def process_video(video_para):
     output_path = pjoin( video_path, video_name.replace('.', '_') )
     imout_path  = pjoin( output_path, 'faces' )
 
-    if not os.path.exists(output_path):
-        os.mkdir(output_path)
-    if not os.path.exists(imout_path):
-        os.mkdir(imout_path)
+    if os.path.exists(output_path):
+        shutil.rmtree(output_path)
+    os.mkdir(output_path)
+    os.mkdir(imout_path)
 
     # Load video 
     video  = cv2.VideoCapture(video_para)
@@ -26,10 +27,10 @@ def process_video(video_para):
 
     # Face detection parameters
     mtcnn_model = 'detection/mtcnn_model/'
-    minsize = 25 # minimum size of face
-    threshold = [ 0.6, 0.7, 0.8 ]  # three steps's threshold
+    minsize = 74 # minimum size of face
+    threshold = [ 0.8, 0.9, 0.996 ]  # three steps's threshold
     factor = 0.709 # scale factor
-    margin = 32 # crop magrin
+    margin = 16 # crop magrin
 
     # Restore mtcnn model
     print('Creating networks and loading parameters')
@@ -86,7 +87,7 @@ def process_video(video_para):
         frame_count += 1
 
         # Video ends
-        if frame_count == nfrm or face_count > 1000:
+        if frame_count == nfrm or face_count > 2000:
             break
 
     # Close video

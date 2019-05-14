@@ -15,6 +15,7 @@ The code was inspired by several articles and projects as follows:
 * [A comparison of clustering algorithms for face clustering](http://fse.studenttheses.ub.rug.nl/18064/1/Report_research_internship.pdf)  
 * [Face Clustering: Representation and Pairwise Constraints](https://arxiv.org/pdf/1706.05067.pdf)  
 * [End-to-end Face Detection and Cast Grouping in Movies Using Erdős-Rényi Clustering](https://arxiv.org/pdf/1709.02458.pdf)  
+* [Unsupervised Face Recognition in Television News Media](http://cs229.stanford.edu/proj2017/final-reports/5244380.pdf)  
 
 ## Credit
 
@@ -27,5 +28,5 @@ The code was inspired by several articles and projects as follows:
 ## Setup Environment
 
 ```
-sudo pip install -r requirements.txt
+pip install -r requirements.txt
 ```
