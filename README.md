@@ -28,5 +28,8 @@ The code was inspired by several articles and projects as follows:
 ## Setup Environment
 
 ```
+sudo apt install libpython-dev
+sudo apt install python-tk
+sudo apt install python-pip
 pip install -r requirements.txt
 ```
