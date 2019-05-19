@@ -5,24 +5,24 @@ from scipy import misc
 from os.path import join as pjoin
 from sklearn.cluster import DBSCAN
 
-def face_clustering(db_path):
+def face_cluster(db_path):
     # Face embedding parameters
-    cluster_threshold  = 0.81
-    min_cluster_size   = 10
+    cluster_threshold  = 0.78
+    min_cluster_size   = 12
 
     # Load face embedding
-    face_label  = pjoin( db_path, 'face_label' )
-    face_path   = pjoin( db_path, 'faces' )
-    emb = np.load( pjoin( db_path, 'face_embedding.npy' ) )
-    print len(emb), len(emb[0])
+    face_label = pjoin( db_path, 'face_label' )
+    face_path  = pjoin( db_path, 'faces' )
+    embedding  = np.load( pjoin( db_path, 'face_embedding.npy' ) )
+    print len(embedding), len(embedding[0])
 
     # Generate distance matrix
-    nrof_images = len(emb)
+    nrof_images = len(embedding)
     matrix = np.zeros((nrof_images, nrof_images))
 
     for i in range(nrof_images):
         for j in range(nrof_images):
-            dist = np.sqrt(np.sum(np.square(np.subtract(emb[i, :], emb[j, :]))))
+            dist = np.sqrt(np.sum(np.square(np.subtract(embedding[i, :], embedding[j, :]))))
             matrix[i][j] = dist
 
     db = DBSCAN(eps=cluster_threshold, min_samples=min_cluster_size, metric='precomputed')
@@ -43,3 +43,10 @@ def face_clustering(db_path):
         if not os.path.exists(labeled):
             os.mkdir(labeled)
         shutil.copy2(face, labeled)
+
+    # Save clusters label
+    label_db = np.array(labels)
+    np.save(pjoin(db_path, 'label_db.npy'), label_db)
+
+    # Return DB path
+    return db_path

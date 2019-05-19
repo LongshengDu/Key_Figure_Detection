@@ -6,7 +6,7 @@ import numpy as np
 import tensorflow as tf
 from os.path import join as pjoin
 
-def process_video(video_para):
+def face_detect(video_para):
     # Generate output path
     video_name  = os.path.basename( video_para )
     video_path  = os.path.dirname( video_para )
@@ -27,8 +27,8 @@ def process_video(video_para):
 
     # Face detection parameters
     mtcnn_model = 'detection/mtcnn_model/'
-    minsize = 74 # minimum size of face
-    threshold = [ 0.8, 0.9, 0.996 ]  # three steps's threshold
+    minsize = 70 # minimum size of face
+    threshold = [ 0.8, 0.9, 0.995 ]  # three steps's threshold
     factor = 0.709 # scale factor
     margin = 16 # crop magrin
 

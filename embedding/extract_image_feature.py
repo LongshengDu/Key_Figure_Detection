@@ -5,7 +5,7 @@ from os.path import join as pjoin
 from scipy import misc
 import facenet
 
-def face_embedding(db_path):   
+def face_embed(db_path):   
     # Face embedding parameters
     image_size    = 160
     facenet_model = 'embedding/facenet_model/20180402-114759/'
