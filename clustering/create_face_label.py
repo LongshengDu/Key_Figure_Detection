@@ -14,7 +14,7 @@ def face_cluster(db_path):
     face_label = pjoin( db_path, 'face_label' )
     face_path  = pjoin( db_path, 'faces' )
     embedding  = np.load( pjoin( db_path, 'face_embedding.npy' ) )
-    print len(embedding), len(embedding[0])
+    print embedding.shape
 
     # Generate distance matrix
     nrof_images = len(embedding)
