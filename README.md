@@ -3,7 +3,8 @@
 Key Figure Detection for Multi-Person Videos
 
 Face detection is based on [MTCNN](https://kpzhang93.github.io/MTCNN_face_detection_alignment/index.html).  
-Face embedding is based on [Facenet](https://arxiv.org/abs/1503.03832).
+Face embedding is based on [Facenet](https://arxiv.org/abs/1503.03832).  
+Face clustering is based on [DBSCAN](https://www.aaai.org/Papers/KDD/1996/KDD96-037.pdf).  
 
 ## Inspiration
 
