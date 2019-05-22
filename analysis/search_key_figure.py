@@ -17,13 +17,13 @@ def analyze_data(db_path):
     # Face label count
     no_ppl = len(set(labels)) - (1 if -1 in labels else 0)
     # Adjacency matrix
-    matrix = np.zeros((no_ppl, no_ppl))
+    adjMatrix = np.zeros((no_ppl, no_ppl))
     
     # Faces appeared within one continuous frame window deemed related
     for i in range(window, frames+1):
         x, = np.where((facefrm >= i-window) & (facefrm < i))
         # Propulate adjacency matrix
-        # matrix[i,i] represents face total appearance time
+        # adjMatrix[i,i] represents face total appearance time
         if len(x) > 0:
             upper = max(x)
             lower = min(x)
@@ -31,8 +31,13 @@ def analyze_data(db_path):
             for i in snap:
                 for j in snap:
                     if i>-1 and j>-1:
-                        matrix[i,j] += 1
+                        adjMatrix[i,j] += 1
     
     # Save and print adjacency matrix
-    np.save(pjoin(db_path, 'network_matrix.npy'), matrix)
-    print DataFrame(matrix)
+    np.save(pjoin(db_path, 'network_matrix.npy'), adjMatrix)
+    print DataFrame(adjMatrix)
+    
+    # Graph analysis
+    # TODO
+    # key_figure_rank = analyze(adjMatrix)
+    # return key_figure_rank
