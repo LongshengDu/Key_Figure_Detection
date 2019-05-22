@@ -24,7 +24,8 @@ def face_cluster(db_path):
         for j in range(nrof_images):
             dist = np.sqrt(np.sum(np.square(np.subtract(embedding[i, :], embedding[j, :]))))
             matrix[i][j] = dist
-
+    
+    # Cluster embedding using DBSCAN
     db = DBSCAN(eps=cluster_threshold, min_samples=min_cluster_size, metric='precomputed')
     db.fit(matrix)
     labels = db.labels_.tolist()
@@ -33,20 +34,21 @@ def face_cluster(db_path):
     no_clusters = len(set(labels)) - (1 if -1 in labels else 0)
     print no_clusters
 
-    # Copy to label folder
+    # Create label folder
     if os.path.exists(face_label):
         shutil.rmtree(face_label)
     os.mkdir(face_label)
+    
+    # Copy to label folder    
     for i in range(nrof_images):
-        face = pjoin(face_path, str(i)+'.png')
-        labeled = pjoin(face_label, str(labels[i]))
+        face    = pjoin( face_path,  str(i) + '.png' )
+        labeled = pjoin( face_label, str(labels[i])  )
         if not os.path.exists(labeled):
             os.mkdir(labeled)
         shutil.copy2(face, labeled)
 
     # Save clusters label
-    label_db = np.array(labels)
-    np.save(pjoin(db_path, 'label_db.npy'), label_db)
+    np.save(pjoin(db_path, 'label_db.npy'), np.array(labels))
 
     # Return DB path
     return db_path
